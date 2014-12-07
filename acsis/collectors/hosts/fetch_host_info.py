@@ -64,6 +64,10 @@ class HostInfoFetcher(object):
         self._logger.debug('hosts: ' + str(self._hosts))
         if 'ALL' in self._hosts:
             self.get_all_hosts_names()
+        ### extra hosts, explicitly specified
+        hosts_other = str(self._config.get("host_info", "hosts_other")).split(',')
+        if len(hosts_other):
+            self._hosts.extend(hosts_other)
         self._logger.debug('hosts: ' + str(self._hosts))
 
 
@@ -129,7 +133,11 @@ class HostInfoFetcher(object):
                                {'hostname': hostname})
             self._logger.debug('Host info for [%(hostname)s]: [%(hostinfo)s].'\
                                % {'hostname': hostname, 'hostinfo': output})
-        self._host_info[hostname] = json.loads(output)
+        try:
+            self._host_info[hostname] = json.loads(output)
+        except ValueError:
+            self._logger.debug('Host info for [%(hostname)s]: is not a valid JSON document [%(hostinfo)s].'\
+                               % {'hostname': hostname, 'hostinfo': output})
 
 
     def read_input_json(self):
