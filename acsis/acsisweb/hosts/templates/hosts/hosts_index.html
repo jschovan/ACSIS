@@ -1,0 +1,40 @@
+<table>
+<thead>
+<tr>
+<th>Host</th>
+<th>Hostgroup</th>
+<th>Type</th>
+<th>Zone</th>
+<th>HW type/flavour</th>
+<th># cores</th>
+<th># disks</th>
+<th>RAM</th>
+<th>Swap</th>
+<th>Architecture</th>
+<th>OS</th>
+<th>LB</th>
+<th>Alarms</th>
+</tr>
+</thead>
+<tbody>
+{% if data %}
+{% for item in data %}
+<tr>
+<td>{{item.hostname}}</td>
+<td>{{item.hostgroup}}</td>
+<td>{{item.appstate}}/{{item.environment|default_if_none:"&mdash;"}}</td>
+<td>{{item.availability_zone|default_if_none:"&mdash;"}}</td>
+<td>{{item.hwtype}}/{{item.flavour|default_if_none:"&mdash;"}}</td>
+<td>{{item.hwcores}}</td>
+<td>{{item.hwdisks}}</td>
+<td>{{item.hwmemory}}</td>
+<td>{{item.hwswap}}</td>
+<td>{{item.arch}}</td>
+<td>{{item.os}} {{item.lsbdistrelease}}</td>
+<td>{{item.lbaliases}}</td>
+<td>App:{{item.app_alarmed}} HW:{{item.hw_alarmed}} NC:{{item.nc_alarmed}}</td>
+</tr>
+{% endfor %}
+{% endif %}
+</tbody>
+</table>

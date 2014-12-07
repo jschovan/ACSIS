@@ -1,0 +1,20 @@
+<table>
+<thead>
+<tr>
+<th>Hostgroup</th>
+<th>Responsible</th>
+<th>Service(s)</th>
+</tr>
+</thead>
+<tbody>
+{% if data %}
+{% for item in data %}
+<tr>
+<td>{{item.hostgroup}}</td>
+<td>{{item.responsible}}</td>
+<td>{{item.services}}</td>
+</tr>
+{% endfor %}
+{% endif %}
+</tbody>
+</table>
