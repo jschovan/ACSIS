@@ -1,5 +1,6 @@
 """
-    fetch_hostgroups ... get list of possible hostgroups from git
+    fetch_hostgroups ... get list of possible hostgroups from git.
+                     ... get list of hosts in a hostgroup (using mco).
     
 """
 import commands
