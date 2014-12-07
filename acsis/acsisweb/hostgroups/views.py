@@ -57,7 +57,7 @@ def hostgroup_list(request):
 
 def hostgroups_index(request):
     data = {
-        'data': HostGroup.objects.all()
+        'data': HostGroup.objects.all(),
     }
     return render_to_response('hostgroups/hostgroups_index.html', data, RequestContext(request))
 

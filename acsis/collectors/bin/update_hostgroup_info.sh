@@ -4,7 +4,7 @@
 # Runs on aiadm.cern.ch.
 # @Author: Jaroslava Schovancova <jaroslava.schovancova@cern.ch>
 # 
-URL_HOSTGROUP_UPDATE="http://aipanda022.cern.ch/acsis/hostgroups/api/"
+URL_HOSTGROUP_UPDATE="http://aipanda043.cern.ch/acsis/hostgroups/api/"
 DIR_BIN="$(dirname $0)"
 DIR_PARENT="${DIR_BIN}/../"
 DIR_OUTPUT="${DIR_PARENT}/output/"
