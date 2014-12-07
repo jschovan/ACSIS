@@ -1,6 +1,6 @@
 #!/bin/bash
 # fetch_host_info.sh 
-# Get list of hostgroups from available puppet manifests.
+# Get list of hosts in hostgroups.
 # Runs on aiadm.cern.ch.
 # @Author: Jaroslava Schovancova <jaroslava.schovancova@cern.ch>
 # 

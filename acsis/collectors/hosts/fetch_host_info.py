@@ -27,6 +27,9 @@ class HostInfoFetcher(object):
     _hosts_in_hostgroups = {}
     _hosts = []
     _host_info = {}
+    _host_info_raw = []
+    _hostgroup_info = {}
+    _hostgroup_info_raw = []
 
 
     def __init__(self, config_file=None):
@@ -120,6 +123,23 @@ class HostInfoFetcher(object):
                                {'hg': hg, 'hosts': self._hosts_in_hostgroups[hg]})
 
 
+    def process_raw_host_info(self, hostname):
+        raw_info = {}
+        if len(self._host_info[hostname]):
+            raw_output = {}
+            raw_output.update(self._host_info[hostname][0])
+            raw_info.update(raw_output)
+            if 'hardware' in raw_info.keys():
+                hw_keys = ['cores', 'disks', 'memory', 'swap', 'type']
+                for hw_key in hw_keys:
+                    if hw_key in raw_output['hardware'].keys():
+                        key = 'hw' + hw_key
+                        value = raw_output['hardware'][hw_key]
+                        raw_info[key] = value
+                del raw_info['hardware']
+        return raw_info
+
+
     def get_host_info(self, hostname):
         if hostname not in self._host_info.keys():
             self._host_info[hostname] = []
@@ -133,11 +153,23 @@ class HostInfoFetcher(object):
                                {'hostname': hostname})
             self._logger.debug('Host info for [%(hostname)s]: [%(hostinfo)s].'\
                                % {'hostname': hostname, 'hostinfo': output})
+        ### json response
         try:
             self._host_info[hostname] = json.loads(output)
         except ValueError:
             self._logger.debug('Host info for [%(hostname)s]: is not a valid JSON document [%(hostinfo)s].'\
                                % {'hostname': hostname, 'hostinfo': output})
+        ### json response processed to raw info
+        raw_output = self.process_raw_host_info(hostname)
+        if len(raw_output.keys()):
+            self._host_info_raw.append(raw_output)
+            ### hostgroup info update
+            hostgroup = raw_output['hostgroup']
+            responsible = raw_output['responsible']
+            if hostgroup not in self._hostgroup_info.keys():
+                self._hostgroup_info[hostgroup] = {}
+                self._hostgroup_info_raw.append({'hostgroup': hostgroup, \
+                                                 'responsible': responsible})
 
 
     def read_input_json(self):
@@ -170,6 +202,8 @@ class HostInfoFetcher(object):
             self.get_host_info(hostname)
         ### dump output for host info
         self.dump_output(data=self._host_info, filename='host_info.json')
+        self.dump_output(data=self._host_info_raw, filename='host_info_raw.json')
+        self.dump_output(data=self._hostgroup_info_raw, filename='hostgroup_info_update_raw.json')
 
 
 if __name__ == "__main__":
