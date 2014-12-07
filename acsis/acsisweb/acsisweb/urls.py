@@ -17,4 +17,5 @@ urlpatterns = patterns('',
 
     url(r'^hosts/', include('hosts.urls')),
     url(r'^hostgroups/', include('hostgroups.urls')),
+    url(r'^services/', include('services.urls')),
 )

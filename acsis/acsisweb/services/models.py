@@ -1,7 +1,7 @@
 from django.db import models
 
 class Service(models.Model):
-    service = models.CharField(max_length=50, db_column='SERVICE', blank=False, null=False)
+    service = models.CharField(max_length=50, db_column='SERVICE', blank=False, null=False, primary_key=True)
     description = models.CharField(max_length=256, db_column='DESCRIPTION', blank=True, null=True)
     parents = models.CharField(max_length=256, db_column='PARENTS', blank=True, null=True)
     doccard = models.URLField(db_column='DOCCARD', blank=True, null=True)
